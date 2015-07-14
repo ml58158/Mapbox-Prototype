@@ -1,0 +1,13 @@
+PODS:
+  - MapboxGL (0.4.0)
+  - SMCalloutView (2.1.2)
+
+DEPENDENCIES:
+  - MapboxGL
+  - SMCalloutView
+
+SPEC CHECKSUMS:
+  MapboxGL: 294b348ca8367374468246a2a7d9f84612592cd0
+  SMCalloutView: 4078d89b847731e514b1a919fed33b383a24a106
+
+COCOAPODS: 0.36.0
