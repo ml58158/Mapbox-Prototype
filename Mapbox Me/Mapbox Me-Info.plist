@@ -29,7 +29,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The map will be centered on the user's location.</string>
+	<string>The map will be centered on the user&apos;s location.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -42,5 +42,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoibWw1ODE1OCIsImEiOiJiYWUzZmQ2NjZhMjJlMWIxOTllMzlmNjUzOTg1N2M5YSJ9.iycAe0zB3RtaZQknprGGoQ</string>
+	<key>MGLMapboxMetricsEnabledSettingShownInApp</key>
+	<string>Yes</string>
 </dict>
 </plist>

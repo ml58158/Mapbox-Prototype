@@ -40,6 +40,9 @@
 {
     [super viewDidLoad];
     [self getLocation];
+
+[[RMConfiguration sharedInstance] setAccessToken:@"<pk.eyJ1IjoibWw1ODE1OCIsImEiOiJiYWUzZmQ2NjZhMjJlMWIxOTllMzlmNjUzOTg1N2M5YSJ9.iycAe0zB3RtaZQknprGGoQ>"];
+
     //[self customAnnotation];
     //[self customAnnotationTwo];
 
@@ -84,12 +87,18 @@
      :returns: Annotation
      */
 
-    RMPointAnnotation *annotation = [[RMPointAnnotation alloc]
-                                     initWithMapView:mapView
-                                     coordinate:mapView.centerCoordinate
-                                     andTitle:@"Hello, world!"];
+    RMAnnotation *annotation = [[RMAnnotation alloc] initWithMapView:mapView
+                                                          coordinate:mapView.centerCoordinate
+                                                            andTitle:@"Mapbox Garage"];
+    [mapView addAnnotation:annotation];
 
-    [mapView addAnnotation:annotation]; //error
+
+//    RMPointAnnotation *annotation = [[RMPointAnnotation alloc]
+//                                     initWithMapView:mapView
+//                                     coordinate:mapView.centerCoordinate
+//                                     andTitle:@"Hello, world!"];
+//
+//    [mapView addAnnotation:annotation]; //error
 
 
 }
@@ -107,10 +116,12 @@
     self.mapView.userTrackingMode = RMUserTrackingModeFollow;
 }
 
+#pragma mark - CLLocationManager Delegates
+
 -(void)getLocation{
 
     self.locationManager = [CLLocationManager new];
-    self.locationManager.delegate = self;
+   // self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     self.locationManager.distanceFilter = 500;
     self.locationManager.pausesLocationUpdatesAutomatically = NO;

@@ -1,8 +1,7 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-LIBRARY_SEARCH_PATHS = "${PODS_ROOT}/Mapbox-iOS-SDK/Proj4"
-OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/FMDB.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/GRMustache.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/JRSwizzle.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/MapboxGL.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/Mapbox_iOS_SDK.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SMCalloutView.framework/Headers"
+OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/MapboxGL.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/SMCalloutView.framework/Headers"
 OTHER_CPLUSPLUSFLAGS = -std=gnu++11 -stdlib=libc++
-OTHER_LDFLAGS = $(inherited) -ObjC -framework "FMDB" -framework "GRMustache" -framework "JRSwizzle" -framework "MapboxGL" -framework "Mapbox_iOS_SDK" -framework "SMCalloutView"
+OTHER_LDFLAGS = $(inherited) -ObjC -framework "MapboxGL" -framework "SMCalloutView"
 PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods
 PODS_ROOT = ${SRCROOT}/Pods

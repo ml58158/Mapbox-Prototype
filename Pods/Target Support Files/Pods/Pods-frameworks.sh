@@ -52,26 +52,14 @@ code_sign_if_enabled() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework 'Pods/FMDB.framework'
-  install_framework 'Pods/GRMustache.framework'
-  install_framework 'Pods/JRSwizzle.framework'
-  install_framework 'Pods/Mapbox_iOS_SDK.framework'
   install_framework 'Pods/MapboxGL.framework'
   install_framework 'Pods/SMCalloutView.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework 'Pods/FMDB.framework'
-  install_framework 'Pods/GRMustache.framework'
-  install_framework 'Pods/JRSwizzle.framework'
-  install_framework 'Pods/Mapbox_iOS_SDK.framework'
   install_framework 'Pods/MapboxGL.framework'
   install_framework 'Pods/SMCalloutView.framework'
 fi
 if [[ "$CONFIGURATION" == "Ad Hoc" ]]; then
-  install_framework 'Pods/FMDB.framework'
-  install_framework 'Pods/GRMustache.framework'
-  install_framework 'Pods/JRSwizzle.framework'
-  install_framework 'Pods/Mapbox_iOS_SDK.framework'
   install_framework 'Pods/MapboxGL.framework'
   install_framework 'Pods/SMCalloutView.framework'
 fi
