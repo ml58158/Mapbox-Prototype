@@ -9,7 +9,7 @@
 
 #import "Mapbox.h"
 #import <SMCalloutView/SMCalloutView.h>
-//#import "mapboxGL.h"
+#import "mapboxGL.h"
 
 #define kRegularSourceID   @"ml58158.ml047dgo"
 #define kTerrainSourceID   @"ml58158.ml46nehj"
@@ -17,14 +17,15 @@
 
 #define kTintColor [UIColor colorWithRed:0.120 green:0.550 blue:0.670 alpha:1.000]
 
-@interface MBMViewController () {
+@interface MBMViewController () <MGLAnnotation,MGLMapViewDelegate>
+{
     UIButton *button;
 }
 
-@property (nonatomic, strong) IBOutlet RMMapView *mapView;
+@property (nonatomic, strong) IBOutlet MGLMapView *mapView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
 @property SMCalloutView *callout;
-@property RMAnnotation *annotationView;
+
 @property CLLocationManager *locationManager;
 
 @end
@@ -41,17 +42,18 @@
     [super viewDidLoad];
     [self getLocation];
 
-[[RMConfiguration sharedInstance] setAccessToken:@"<pk.eyJ1IjoibWw1ODE1OCIsImEiOiJiYWUzZmQ2NjZhMjJlMWIxOTllMzlmNjUzOTg1N2M5YSJ9.iycAe0zB3RtaZQknprGGoQ>"];
-
-    //[self customAnnotation];
-    //[self customAnnotationTwo];
 
     // Set the delegate property of our map view to self after instantiating it.
     mapView.delegate = self;
     self.callout = [SMCalloutView platformCalloutView];
   //  self.callout.delegate = self;
 
-    
+    NSURL *styleURL = [NSURL URLWithString:@"asset://styles/light-v7.json"];
+    mapView = [[MGLMapView alloc] initWithFrame:self.view.bounds styleURL:styleURL];
+    mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
+    CLLocationCoordinate2DMake(43.7318, 10.4222);
+   // [mapView setVisibleCoordinateBounds:bounds];
 
     [self.view addSubview:mapView];
     
@@ -72,7 +74,7 @@
     UIImage *image = [UIImage imageNamed:@"Pin.png"];
     button.center = self.view.center;
     //button.frame = CGRectMake(self.view.center.x - image.size.width / 2, self.view.center.y - image.size.height / 2, image.size.width, image.size.height);
-    button.frame = CGRectMake(0, 0, 347, 97);
+    button.frame = CGRectMake(50, 50, 347, 97);
 
     NSLog(@"Button Frame = %@",NSStringFromCGRect(button.frame));
     [button setImage:image forState:UIControlStateNormal];
@@ -81,39 +83,41 @@
     [self.view addSubview:button];
 
 
-    /**
-     RMPointAnnotation
-
-     :returns: Annotation
-     */
-
-    RMAnnotation *annotation = [[RMAnnotation alloc] initWithMapView:mapView
-                                                          coordinate:mapView.centerCoordinate
-                                                            andTitle:@"Mapbox Garage"];
-    [mapView addAnnotation:annotation];
-
-
-//    RMPointAnnotation *annotation = [[RMPointAnnotation alloc]
-//                                     initWithMapView:mapView
-//                                     coordinate:mapView.centerCoordinate
-//                                     andTitle:@"Hello, world!"];
-//
-//    [mapView addAnnotation:annotation]; //error
-
-
 }
+
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
 
-    self.mapView.tileSource = [[RMMapboxSource alloc] initWithMapID:kRegularSourceID];
-
-    self.navigationItem.rightBarButtonItem = [[RMUserTrackingBarButtonItem alloc] initWithMapView:self.mapView];
+   // self.mapView.tileSource = [[RMMapboxSource alloc] initWithMapID:kRegularSourceID];
 
     self.navigationItem.rightBarButtonItem.tintColor = kTintColor;
 
     self.mapView.userTrackingMode = RMUserTrackingModeFollow;
+
+    [super viewDidAppear:animated];
+
+    MGLPointAnnotation *pisa = [[MGLPointAnnotation alloc] init];
+    pisa.coordinate = CLLocationCoordinate2DMake(43.72305, 10.396633);
+    pisa.title = @"Leaning Tower of Pisa";
+
+    [mapView addAnnotation:pisa];
+
+    // Declare the marker `hello` and set its coordinates, title, and subtitle
+    MGLPointAnnotation *hello = [[MGLPointAnnotation alloc] init];
+    hello.coordinate = CLLocationCoordinate2DMake(40.7326808, -73.9843407);
+    hello.title = @"Hello world!";
+    hello.subtitle = @"Welcome to my marker";
+
+    // Add marker `hello` to the map
+    [mapView addAnnotation:hello];
+}
+
+// Allow markers callouts to show when tapped
+- (BOOL)mapView:(MGLMapView *)mapView annotationCanShowCallout:(id <MGLAnnotation>)annotation {
+    return YES;
 }
 
 #pragma mark - CLLocationManager Delegates
@@ -146,6 +150,23 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait || [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad);
 }
 
+
+
+- (MGLAnnotationImage *)mapView:(MGLMapView *)mapView imageForAnnotation:(id <MGLAnnotation>)annotation
+{
+    MGLAnnotationImage *annotationImage = [mapView dequeueReusableAnnotationImageWithIdentifier:@"pisa"];
+
+    if ( ! annotationImage)
+    {
+        // Leaning Tower of Pisa by Stefan Spieler from the Noun Project
+        UIImage *image = [UIImage imageNamed:@"pisa"];
+        annotationImage = [MGLAnnotationImage annotationImageWithImage:image reuseIdentifier:@"pisa"];
+    }
+
+    return annotationImage;
+}
+
+
 #pragma mark - RMMap Helper Methods
 
 - (RMMapLayer *)mapView:(RMMapView *)mapView layerForAnnotation:(RMPointAnnotation *)annotation
@@ -169,13 +190,8 @@
                                         buttonWithType:UIButtonTypeDetailDisclosure];
 
     return marker;
-
+    
 }
-
-
-
-
-
 
 #pragma mark - Toggle Maps
 
@@ -190,7 +206,7 @@
     else if (sender.selectedSegmentIndex == 0)
         mapID = kRegularSourceID;
     
-    self.mapView.tileSource = [[RMMapboxSource alloc] initWithMapID:mapID];
+  //  self.mapView.tileSource = [[RMMapboxSource alloc] initWithMapID:mapID];
 }
 
 
@@ -218,17 +234,8 @@
 /**
  *  Defines the Custom Annotation
  */
--(void)customAnnotationTwo {
 
 
-
-    RMPointAnnotation *annotation = [[RMPointAnnotation alloc]
-                                     initWithMapView:mapView
-                                     coordinate:mapView.centerCoordinate
-                                     andTitle:@"Hello, world!"];
-
-    [mapView addAnnotation:annotation];
-}
 
 /**
  *  Defines SMCallout View
@@ -269,7 +276,9 @@
     /**
      *  Presents Custom Callout to View Controller
      */
-    [calloutView presentCalloutFromRect:button.frame inView:self.view constrainedToView:self.view animated:YES];
+
+    // Can't figure out what to set "inView" to as mapboxmgl doesnt have a annotationview
+    [calloutView presentCalloutFromRect:self.view.frame inView:self.mapView constrainedToView:self.view animated:YES];
 }
 
 - (void)tapOnCalloutAccessoryControl:(UIControl *)control

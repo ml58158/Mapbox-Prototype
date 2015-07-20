@@ -6,11 +6,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RMMapViewDelegate.h"
 #import <CoreLocation/CoreLocation.h>
 
 
-@interface MBMViewController : UIViewController <RMMapViewDelegate>
+@interface MBMViewController : UIViewController
 
 
 

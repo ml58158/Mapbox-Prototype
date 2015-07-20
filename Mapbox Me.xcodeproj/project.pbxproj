@@ -10,6 +10,9 @@
 		3CA9620A281A64100C24E036 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EFDA57FF7523DFAB0814D6 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C43776DE1B533E34002F1641 /* calloutImage.png in Resources */ = {isa = PBXBuildFile; fileRef = C43776DD1B533E34002F1641 /* calloutImage.png */; };
 		C439CF6C1B54290E00EE2F94 /* rightsidecallout.png in Resources */ = {isa = PBXBuildFile; fileRef = C439CF6B1B54290E00EE2F94 /* rightsidecallout.png */; };
+		C474D8011B5D7128000415BC /* pisa.png in Resources */ = {isa = PBXBuildFile; fileRef = C474D7FE1B5D7128000415BC /* pisa.png */; };
+		C474D8021B5D7128000415BC /* pisa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C474D7FF1B5D7128000415BC /* pisa@2x.png */; };
+		C474D8031B5D7128000415BC /* pisa@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C474D8001B5D7128000415BC /* pisa@3x.png */; };
 		C4AB40DE1B4B08E100A08205 /* Pin.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AB40DC1B4B08E100A08205 /* Pin.png */; };
 		C4AB40DF1B4B08E100A08205 /* Pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AB40DD1B4B08E100A08205 /* Pin@2x.png */; };
 		C4AB40E11B4B0A5F00A08205 /* astro-training.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AB40E01B4B0A5F00A08205 /* astro-training.png */; };
@@ -38,6 +41,9 @@
 		7F0254282EB9B52050D9A2BB /* Pods.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods/Pods.ad hoc.xcconfig"; sourceTree = "<group>"; };
 		C43776DD1B533E34002F1641 /* calloutImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calloutImage.png; sourceTree = "<group>"; };
 		C439CF6B1B54290E00EE2F94 /* rightsidecallout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightsidecallout.png; sourceTree = "<group>"; };
+		C474D7FE1B5D7128000415BC /* pisa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pisa.png; path = Images.xcassets/pisa.imageset/pisa.png; sourceTree = "<group>"; };
+		C474D7FF1B5D7128000415BC /* pisa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pisa@2x.png"; path = "Images.xcassets/pisa.imageset/pisa@2x.png"; sourceTree = "<group>"; };
+		C474D8001B5D7128000415BC /* pisa@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pisa@3x.png"; path = "Images.xcassets/pisa.imageset/pisa@3x.png"; sourceTree = "<group>"; };
 		C4AB40DC1B4B08E100A08205 /* Pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pin.png; sourceTree = "<group>"; };
 		C4AB40DD1B4B08E100A08205 /* Pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pin@2x.png"; sourceTree = "<group>"; };
 		C4AB40E01B4B0A5F00A08205 /* astro-training.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "astro-training.png"; path = "Images.xcassets/astro-training.imageset/astro-training.png"; sourceTree = "<group>"; };
@@ -282,6 +288,9 @@
 			isa = PBXGroup;
 			children = (
 				C4AB40DC1B4B08E100A08205 /* Pin.png */,
+				C474D7FE1B5D7128000415BC /* pisa.png */,
+				C474D7FF1B5D7128000415BC /* pisa@2x.png */,
+				C474D8001B5D7128000415BC /* pisa@3x.png */,
 				C43776DD1B533E34002F1641 /* calloutImage.png */,
 				C439CF6B1B54290E00EE2F94 /* rightsidecallout.png */,
 				C4AB40E41B4B0ED500A08205 /* astronaut2.png */,
@@ -353,14 +362,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDC92FFD1A1596B10082BDE8 /* LaunchScreen.xib in Resources */,
+				C474D8021B5D7128000415BC /* pisa@2x.png in Resources */,
 				C4AB40E31B4B0EC100A08205 /* astronaut1.png in Resources */,
 				C439CF6C1B54290E00EE2F94 /* rightsidecallout.png in Resources */,
 				DDD0B7B01524D4E400EBC267 /* InfoPlist.strings in Resources */,
 				C43776DE1B533E34002F1641 /* calloutImage.png in Resources */,
 				DDC92FFC1A1596B10082BDE8 /* Images.xcassets in Resources */,
+				C474D8011B5D7128000415BC /* pisa.png in Resources */,
 				C4AB40E51B4B0ED500A08205 /* astronaut2.png in Resources */,
 				C4AB40DE1B4B08E100A08205 /* Pin.png in Resources */,
 				C4AB40DF1B4B08E100A08205 /* Pin@2x.png in Resources */,
+				C474D8031B5D7128000415BC /* pisa@3x.png in Resources */,
 				DDA878B319AE9A9D006AFD7A /* Mapbox.bundle in Resources */,
 				DD978F7415ADEB94005AA345 /* MBMViewController.xib in Resources */,
 				C4AB40E11B4B0A5F00A08205 /* astro-training.png in Resources */,
