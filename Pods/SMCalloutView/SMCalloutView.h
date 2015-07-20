@@ -6,14 +6,14 @@
 SMCalloutView
 -------------
 Created by Nick Farina (nfarina@gmail.com)
-Version 2.0.3
+Version 2.0
 
 */
 
 // options for which directions the callout is allowed to "point" in.
-typedef NS_OPTIONS(NSUInteger, SMCalloutArrowDirection) {
-    SMCalloutArrowDirectionUp = 1 << 0,
-    SMCalloutArrowDirectionDown = 1 << 1,
+typedef NS_ENUM(NSUInteger, SMCalloutArrowDirection) {
+    SMCalloutArrowDirectionUp = 1UL << 0,
+    SMCalloutArrowDirectionDown = 1UL << 1,
     SMCalloutArrowDirectionAny = SMCalloutArrowDirectionUp | SMCalloutArrowDirectionDown
 };
 
@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, SMCalloutAnimation) {
 
 // when delaying our popup in order to scroll content into view, you can use this amount to match the
 // animation duration of UIScrollView when using -setContentOffset:animated.
-extern NSTimeInterval const kSMCalloutViewRepositionDelayForUIScrollView;
+extern NSTimeInterval kSMCalloutViewRepositionDelayForUIScrollView;
 
 @protocol SMCalloutViewDelegate;
 @class SMCalloutBackgroundView;
@@ -54,10 +54,7 @@ extern NSTimeInterval const kSMCalloutViewRepositionDelayForUIScrollView;
 // Custom "content" view that can be any width/height. If this is set, title/subtitle/titleView/subtitleView are all ignored.
 @property (nonatomic, retain) UIView *contentView;
 
-// Custom content view margin
-@property (nonatomic, assign) UIEdgeInsets contentViewInset;
-
-// calloutOffset is the offset in screen points from the top-middle of the target view, where the anchor of the callout should be shown.
+// calloutOffset is the offset in screen points from the top-middle of the annotation view, where the anchor of the callout should be shown.
 @property (nonatomic, assign) CGPoint calloutOffset;
 
 @property (nonatomic, assign) SMCalloutAnimation presentAnimation, dismissAnimation; // default SMCalloutAnimationBounce, SMCalloutAnimationFade respectively
@@ -91,8 +88,6 @@ extern NSTimeInterval const kSMCalloutViewRepositionDelayForUIScrollView;
 @property (nonatomic, assign) CGPoint arrowPoint; // indicates where the tip of the arrow should be drawn, as a pixel offset
 @property (nonatomic, assign) BOOL highlighted; // will be set by the callout when the callout is in a highlighted state
 @property (nonatomic, assign) CALayer *contentMask; // returns an optional layer whose contents should mask the callout view's contents (not honored by SMClassicCalloutView)
-@property (nonatomic, assign) CGFloat anchorHeight; // height of the callout "arrow"
-@property (nonatomic, assign) CGFloat anchorMargin; // the smallest possible distance from the edge of our control to the "tip" of the anchor, from either left or right
 @end
 
 // Default for iOS 7, this reproduces the "masked" behavior of the iOS 7-style callout view.
@@ -107,11 +102,8 @@ extern NSTimeInterval const kSMCalloutViewRepositionDelayForUIScrollView;
 @protocol SMCalloutViewDelegate <NSObject>
 @optional
 
-// Controls whether the callout "highlights" when pressed. default YES. You must also respond to `-calloutViewClicked` below.
+// Implementing this method allows the callout to be "clicked" like a button, with highlight state. default YES.
 // Not honored by SMClassicCalloutView.
-- (BOOL)calloutViewShouldHighlight:(SMCalloutView *)calloutView;
-
-// Called when the callout view is clicked. Not honored by SMClassicCalloutView.
 - (void)calloutViewClicked:(SMCalloutView *)calloutView;
 
 // Called when the callout view detects that it will be outside the constrained view when it appears,

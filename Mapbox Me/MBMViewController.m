@@ -25,6 +25,7 @@
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segmentedControl;
 @property SMCalloutView *callout;
 @property RMAnnotation *annotationView;
+@property CLLocationManager *locationManager;
 
 @end
 
@@ -38,13 +39,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self customAnnotation];
+    [self getLocation];
+    //[self customAnnotation];
     //[self customAnnotationTwo];
 
     // Set the delegate property of our map view to self after instantiating it.
     mapView.delegate = self;
     self.callout = [SMCalloutView platformCalloutView];
   //  self.callout.delegate = self;
+
+    
 
     [self.view addSubview:mapView];
     
@@ -57,7 +61,9 @@
     [[UISegmentedControl appearance] setTintColor:kTintColor];
     [[UIToolbar appearance] setTintColor:kTintColor];
 
-   // [self customAnnotation];
+    /**
+     *  Map Pin Button
+     */
 
     button = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *image = [UIImage imageNamed:@"Pin.png"];
@@ -70,6 +76,21 @@
     [button addTarget:self action:@selector(markerClicked:) forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubview:button];
+
+
+    /**
+     RMPointAnnotation
+
+     :returns: Annotation
+     */
+
+    RMPointAnnotation *annotation = [[RMPointAnnotation alloc]
+                                     initWithMapView:mapView
+                                     coordinate:mapView.centerCoordinate
+                                     andTitle:@"Hello, world!"];
+
+    [mapView addAnnotation:annotation]; //error
+
 
 }
 
@@ -86,10 +107,64 @@
     self.mapView.userTrackingMode = RMUserTrackingModeFollow;
 }
 
+-(void)getLocation{
+
+    self.locationManager = [CLLocationManager new];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.distanceFilter = 500;
+    self.locationManager.pausesLocationUpdatesAutomatically = NO;
+    self.locationManager.activityType = CLActivityTypeFitness;
+
+    [self.locationManager requestWhenInUseAuthorization];
+
+    [self.locationManager startUpdatingLocation];
+  
+}
+
+
+/**
+ *  Autorotate Interface
+ *
+ *  @param interfaceOrientation uiInterfaceOrientation
+ *
+ *  @return true
+ */
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait || [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad);
 }
+
+#pragma mark - RMMap Helper Methods
+
+- (RMMapLayer *)mapView:(RMMapView *)mapView layerForAnnotation:(RMPointAnnotation *)annotation
+{
+    if (annotation.isUserLocationAnnotation)
+        return nil;
+
+    // add Maki icon and color the marker
+    RMMarker *marker = [[RMMarker alloc]
+                        initWithMapboxMarkerImage:@"rocket"
+                        tintColor:[UIColor colorWithRed:.5 green:.466 blue:.733 alpha:1]];
+
+    marker.canShowCallout = YES;
+
+    // add callout image
+    marker.leftCalloutAccessoryView = [[UIImageView alloc]
+                                       initWithImage:
+                                       [UIImage imageNamed:@"astro-training.png"]];
+
+    marker.rightCalloutAccessoryView = [UIButton
+                                        buttonWithType:UIButtonTypeDetailDisclosure];
+
+    return marker;
+
+}
+
+
+
+
+
 
 #pragma mark - Toggle Maps
 
@@ -107,50 +182,18 @@
     self.mapView.tileSource = [[RMMapboxSource alloc] initWithMapID:mapID];
 }
 
--(void)customAnnotation
-{
-    // build first marker and title
-    RMAnnotation *annotation1 = [[RMAnnotation alloc]
-                                 initWithMapView:mapView
-                                 coordinate:CLLocationCoordinate2DMake(38.913175, -77.032453)
-                                 andTitle:@"Astronaut training"];
-
-    annotation1.userInfo = @"training";
-
-    [mapView addAnnotation:annotation1];
-
-    // build second marker and title
-    RMAnnotation *annotation2 = [[RMAnnotation alloc]
-                                 initWithMapView:mapView
-                                 coordinate:CLLocationCoordinate2DMake(38.911031, -80.030098)
-                                 andTitle:@"Astronaut supplies"];
-
-    annotation2.userInfo = @"supplies";
-
-    [mapView addAnnotation:annotation2];
-
-
-    // set coordinates
-    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(38.91235, -77.03128);
-
-    // set zoom
-    mapView.zoom = 15;
-
-    // center the map to the coordinates
-    mapView.centerCoordinate = center;
-
-    // allows rotation
-    mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight |
-    UIViewAutoresizingFlexibleWidth;
-
-    
-}
 
 
 
 #pragma mark - RM Delegates
 
-// add event when callout is tapped
+/**
+ *  Adds Event when callout is tapped
+ *
+ *  @param control    tapOnCallOutAccessoryControl
+ *  @param annotation annotation
+ *  @param map        map
+ */
 - (void)tapOnCalloutAccessoryControl:(UIControl *)control
                        forAnnotation:(RMAnnotation *)annotation onMap:(RMMapView *)map
 {
@@ -161,16 +204,19 @@
 #pragma mark - SMCallout Methods
 
 
-
+/**
+ *  Defines the Custom Annotation
+ */
 -(void)customAnnotationTwo {
 
-    RMPointAnnotation *hello = [[RMPointAnnotation alloc] init];
-    hello.coordinate = CLLocationCoordinate2DMake(36.557257591,	-82.577556829);
-    hello.title = @"Hello world!";
-    hello.subtitle = @"Welcome to my marker";
 
-    // Add marker `hello` to the map
-    [mapView addAnnotation:hello];
+
+    RMPointAnnotation *annotation = [[RMPointAnnotation alloc]
+                                     initWithMapView:mapView
+                                     coordinate:mapView.centerCoordinate
+                                     andTitle:@"Hello, world!"];
+
+    [mapView addAnnotation:annotation];
 }
 
 /**
